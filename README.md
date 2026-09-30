@@ -1,115 +1,44 @@
-# ⚛️ My React App
+﻿# React + Redux Shopping Cart
 
-Современный стартовый шаблон для React-приложений, построенный на Vite. Настроен с TypeScript, SCSS, ESLint, Prettier и React Router — всё готово к разработке с первого запуска.
+Цей проект є прикладом інтеграції Redux у React-додаток за допомогою Redux Toolkit. Він реалізує простий каталог товарів з можливістю додавання їх до кошика.
 
----
+## Виконані вимоги
 
-## 🛠️ Технологический стек
+Проект було відрефакторено згідно з вимогами:
 
-| Технология | Версия | Назначение |
-|---|---|---|
-| [React](https://react.dev/) | ^19 | UI-библиотека |
-| [TypeScript](https://www.typescriptlang.org/) | ~6.0 | Статическая типизация |
-| [Vite](https://vite.dev/) | ^8 | Сборщик и dev-сервер |
-| [React Router DOM](https://reactrouter.com/) | ^7 | Клиентская маршрутизация |
-| [SASS / SCSS](https://sass-lang.com/) | ^1 | Препроцессор стилей |
-| [ESLint](https://eslint.org/) | ^10 | Статический анализ кода |
-| [Prettier](https://prettier.io/) | ^3 | Форматирование кода |
+1.  **Аналіз існуючого стану:**
+    *   Глобальним станом визначено список товарів у кошику (items).
+    *   Цей стан необхідний для відображення кількості та загальної вартості товарів у шапці (Store.tsx), а також для взаємодії з кнопками "Додати" та "Очистити" на картках товарів (Button.tsx).
 
-### ESLint плагины
-- `typescript-eslint` — правила для TypeScript
-- `eslint-plugin-react-hooks` — правила для React хуков
-- `eslint-plugin-react-refresh` — совместимость с Vite HMR
-- `eslint-plugin-prettier` — Prettier как правило ESLint
-- `eslint-config-prettier` — отключает конфликтующие правила ESLint/Prettier
+2.  **Рефакторинг з використанням Redux:**
+    *   Створено Redux store за допомогою Redux Toolkit у директорії src/store.
+    *   Використано createSlice для створення shopSlice, який містить редюсери ddItem та clearItems.
+    *   Додаток обгорнуто у Provider з eact-redux (налаштовано у App.tsx).
+    *   Локальний стан замінено на селектори useSelector (в Store.tsx та CardList.tsx) та useDispatch (в Button.tsx).
 
----
+3.  **Функціональність:**
+    *   **Додавання товару:** При натисканні на кнопку "+ Добавить" товар додається до глобального масиву кошика.
+    *   **Очищення кошика:** При натисканні на кнопку "Очистить" кошик порожніє.
+    *   **Підрахунок вартості:** Загальна сума товарів у кошику автоматично підраховується та відображається у гривнях (грн).
+    *   **Лічильник товарів:** Відображається актуальна кількість товарів у кошику.
 
-## 📁 Структура проекта
+## Запуск проекту
 
-```
-my-react-app/
-├── public/              # Статические файлы (favicon и т.д.)
-├── src/
-│   ├── components/      # React компоненты
-│   │   └── App.tsx      # Корневой компонент приложения
-│   ├── style/
-│   │   ├── index.scss   # Точка входа стилей
-│   │   └── app.scss     # Глобальные стили приложения
-│   └── main.tsx         # Точка входа React
-├── .eslintconfig.js     # Конфигурация ESLint (flat config)
-├── .prettierrc          # Конфигурация Prettier
-├── .prettierignore      # Исключения для Prettier
-├── .gitignore           # Исключения для Git
-├── index.html           # HTML шаблон
-├── vite.config.ts       # Конфигурация Vite
-├── tsconfig.json        # Базовый конфиг TypeScript
-├── tsconfig.app.json    # Конфиг TypeScript для приложения
-└── tsconfig.node.json   # Конфиг TypeScript для Node (Vite)
-```
+Для запуску проекту локально виконайте наступні команди:
 
----
-
-## 🚀 Установка и запуск
-
-### Предварительные требования
-
-- [Node.js](https://nodejs.org/) версии **18.0.0** или выше
-- [npm](https://www.npmjs.com/) версии **9.0.0** или выше
-
-### 1. Клонирование репозитория
-
-```bash
-git clone https://github.com/<ваш-username>/<название-репозитория>.git
-cd <название-репозитория>
-```
-
-### 2. Установка зависимостей
-
-```bash
+`ash
+# Встановлення залежностей
 npm install
-```
 
-### 3. Запуск в режиме разработки
-
-```bash
+# Запуск сервера розробки
 npm run dev
-```
+`
 
-Откройте браузер по адресу: **http://localhost:5173**
+## Технології
 
----
-
-## 📦 Доступные команды
-
-| Команда | Описание |
-|---|---|
-| `npm run dev` | Запуск dev-сервера с HMR |
-| `npm run build` | Сборка production-бандла |
-| `npm run preview` | Предпросмотр production-сборки локально |
-| `npm run lint` | Проверка кода с ESLint |
-
----
-
-## ⚙️ Настройка инструментов
-
-### Prettier (`.prettierrc`)
-```json
-{
-  "singleQuote": true,
-  "semi": false,
-  "trailingComma": "es5",
-  "printWidth": 100,
-  "tabWidth": 2,
-  "endOfLine": "auto"
-}
-```
-
-### SCSS
-Все стили подключаются через `src/style/index.scss`, который импортирует `app.scss`. Для создания стилей компонента создайте `.scss` файл рядом с компонентом и импортируйте его напрямую.
-
----
-
-## 📝 Лицензия
-
-[ISC](./LICENSE)
+*   React 19
+*   Redux Toolkit
+*   React-Redux
+*   Vite
+*   TypeScript
+*   SCSS
