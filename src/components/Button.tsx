@@ -1,4 +1,3 @@
-
 import { useDispatch } from 'react-redux'
 import { addItem, clearItems } from '../store/shopSlice'
 import type { CardItem } from './Card'
@@ -19,17 +18,17 @@ export const Button = ({ item }: ButtonProps) => {
   }
 
   return (
-    <div className="product-card__overlay">
+    <div className="flex gap-3">
       <button
         type="button"
-        className="product-card__add-btn"
+        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-colors active:scale-95"
         onClick={handleAdd}
       >
         + Добавить
       </button>
       <button
         type="button"
-        className="product-card__add-btn"
+        className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-colors active:scale-95"
         onClick={handleClear}
       >
         Очистить

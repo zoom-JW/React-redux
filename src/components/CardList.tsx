@@ -1,43 +1,36 @@
-﻿import { useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Card from './Card'
-import type { CardItem } from './Card'
-
-const SAMPLE_DESCRIPTIONS = [
-  'Эргономичный дизайн и превосходные материалы для максимального комфорта.',
-  'Компактное решение для ежедневного использования с расширенным функционалом.',
-  'Высокая производительность, надежность и премиальный внешний вид.',
-  'Стильный аксессуар, который гармонично дополнит любое пространство.',
-  'Универсальное устройство с интуитивным управлением и долговечностью.',
-  'Современные технологии и продуманный функционал в каждой детали.',
-  'Идеальный баланс цены и премиального качества сборки.',
-  'Практичный выбор для работы, отдыха и творческих задач.',
-  'Инновационный продукт с повышенной энергоэффективностью и удобством.'
-]
-
-const INITIAL_CARDS: CardItem[] = Array.from({ length: 9 }, (_, index) => ({
-  id: index + 1,
-  title: `Товар #${index + 1}`,
-  description: SAMPLE_DESCRIPTIONS[index % SAMPLE_DESCRIPTIONS.length],
-  price: Math.floor(Math.random() * 8500) + 1500,
-  imageUrl: `https://picsum.photos/seed/shop-item-${index + 1}/500/350`
-}))
+import { fetchProducts } from '../store/shopSlice'
+import type { RootState, AppDispatch } from '../store/store'
 
 export const CardList = () => {
-  const [cards] = useState<CardItem[]>(INITIAL_CARDS)
+  const dispatch = useDispatch<AppDispatch>()
+  const { products, status, error } = useSelector((state: RootState) => state.shop)
 
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchProducts())
+    }
+  }, [status, dispatch])
 
   return (
-    <div className="card-list-container">
-      <div className="card-list-header">
-        <h2 className="card-list-title">Каталог товаров</h2>
-
+    <div className="max-w-6xl mx-auto py-8 px-4">
+      <div className="flex justify-between items-baseline mb-6 border-b-2 border-gray-200 pb-3">
+        <h2 className="text-3xl font-bold text-gray-800">Каталог товаров</h2>
       </div>
 
-      <div className="card-list-grid">
-        {cards.map(card => (
-          <Card key={card.id} item={card} />
-        ))}
-      </div>
+      {status === 'loading' && <div className="text-center text-xl text-gray-500 py-10">Загрузка товаров...</div>}
+      
+      {status === 'failed' && <div className="text-center text-xl text-red-500 py-10">Ошибка: {error}</div>}
+
+      {status === 'succeeded' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map(card => (
+            <Card key={card.id} item={card} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
